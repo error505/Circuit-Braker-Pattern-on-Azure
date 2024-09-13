@@ -6,6 +6,8 @@ The architecture integrates multiple cloud patterns, including **Circuit Breaker
 
 ## 🏗️ Architecture Overview
 
+![image](https://github.com/user-attachments/assets/911b73e5-948d-442e-a220-8ce48638fd5d)
+
 The architecture consists of the following components:
 
 1. **Azure Front Door** or **API Gateway**: Acts as the main entry point for incoming client requests and routes them to the API App Service.
