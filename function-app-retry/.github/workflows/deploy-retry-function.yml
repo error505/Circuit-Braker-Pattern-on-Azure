@@ -1,0 +1,36 @@
+name: Deploy Retry Azure Function
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore function-app-retry/FunctionAppRetry.csproj
+
+      - name: Build the function app
+        run: dotnet build function-app-retry/FunctionAppRetry.csproj --configuration Release
+
+      - name: Publish the function app
+        run: dotnet publish function-app-retry/FunctionAppRetry.csproj --configuration Release --output ./publish
+
+      - name: Deploy to Azure Functions
+        uses: azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.AZURE_FUNCTIONAPP_RETRY_NAME }}
+          package: './publish'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_RETRY_PUBLISH_PROFILE }}

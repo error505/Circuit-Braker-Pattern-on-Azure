@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "function_app_retry": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7265",
+      "launchBrowser": false
+    }
+  }
+}

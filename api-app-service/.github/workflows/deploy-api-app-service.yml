@@ -1,0 +1,36 @@
+name: Deploy API App Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore api-app-service/ApiAppService.csproj
+
+      - name: Build the API App Service
+        run: dotnet build api-app-service/ApiAppService.csproj --configuration Release
+
+      - name: Publish the API App Service
+        run: dotnet publish api-app-service/ApiAppService.csproj --configuration Release --output ./publish
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_API_APP_NAME }}
+          package: './publish'
+          publish-profile: ${{ secrets.AZURE_API_APP_PUBLISH_PROFILE }}
