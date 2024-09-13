@@ -10,7 +10,7 @@ The architecture integrates multiple cloud patterns, including **Circuit Breaker
 
 The architecture consists of the following components:
 
-1. **Azure Front Door** or **API Gateway**: Acts as the main entry point for incoming client requests and routes them to the API App Service.
+1. **Azure Front Door** / **API Gateway**: Acts as the main entry point for incoming client requests and routes them to the API App Service.
 2. **API App Service**: Implements the Circuit Breaker and Retry logic. It handles incoming client requests and delegates tasks to the appropriate Azure Functions.
 3. **Retry Azure Function**: Handles normal operations, such as reading/writing to the SQL Database and updating the Redis cache.
 4. **Fallback Azure Function**: Provides cached or alternative data when the main services are unavailable.
